@@ -5,8 +5,7 @@ from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
-    return LaunchDescription([
-        IncludeLaunchDescription(
+    exploration = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 PathJoinSubstitution([
                     FindPackageShare('smb_bringup'),
@@ -15,4 +14,7 @@ def generate_launch_description():
                 ])
             )
         )
+    
+    return LaunchDescription([
+        exploration,
     ])
