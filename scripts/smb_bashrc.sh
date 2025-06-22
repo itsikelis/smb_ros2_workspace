@@ -35,7 +35,7 @@ else
             break
         fi
     done
-    
+
     if [ -z "$ROS_DISTRO" ]; then
         echo "No ROS distribution found in /opt/ros/"
         exit 1
@@ -63,7 +63,7 @@ smb_switch_dds() {
     local is_docker=${IS_DOCKER:-false}
     local config_suffix=""
     local env_type=""
-    
+
     if [ "$is_docker" = "true" ]; then
         config_suffix=""
         env_type="Docker"
@@ -71,7 +71,7 @@ smb_switch_dds() {
         config_suffix="-robot"
         env_type="Robot"
     fi
-    
+
     if [ "$1" = "cyclonedds" ]; then
         export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
         export CYCLONEDDS_URI="file://$SMB_DDS_CONFIG_DIR/cyclonedds${config_suffix}-config.xml"
@@ -140,4 +140,4 @@ _smb_build_packages_up_to_completion() {
 }
 
 # Register the completion function
-complete -o default -o nospace -F _smb_build_packages_up_to_completion smb_build_packages_up_to 
+complete -o default -o nospace -F _smb_build_packages_up_to_completion smb_build_packages_up_to

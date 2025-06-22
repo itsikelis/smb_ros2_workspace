@@ -13,7 +13,7 @@
 	},
 	"runArgs": [
 		// Uncomment it if you have problems with the auto X11 forwarding
-		// "--volume=/tmp/.X11-unix/X0:/tmp/.X11-unix/X0", 
+		// "--volume=/tmp/.X11-unix/X0:/tmp/.X11-unix/X0",
 		"--shm-size=2g", // 2GB of shared memory, increase if you have extra memory or decrease if you have limited memory
 		"--network=host",
 		// "-v",
