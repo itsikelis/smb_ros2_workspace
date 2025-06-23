@@ -10,9 +10,6 @@
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
 
-  <depend>meta_smb_sim</depend>
-  <depend>smb_bringup</depend>
-
   <export>
     <build_type>ament_python</build_type>
   </export>
