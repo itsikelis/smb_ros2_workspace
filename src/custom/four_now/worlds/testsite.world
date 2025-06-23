@@ -1,0 +1,577 @@
+<?xml version='1.0' encoding='ASCII'?>
+<sdf version='1.7'>
+  <world name='damaged_construction_site'>
+    <gravity>0 0 -9.8</gravity>
+    <physics type='ode'>
+      <max_step_size>0.005</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <max_contacts>10</max_contacts>
+    </physics>
+    <scene>
+      <ambient>0.6 0.6 0.5 1</ambient>
+      <background>0.4 0.4 0.3 1</background>
+      <shadows>1</shadows>
+      <grid>false</grid>
+    </scene>
+
+    <!-- Dramatic lighting for disaster scene -->
+    <light type="directional" name="sun">
+      <cast_shadows>1</cast_shadows>
+      <pose>-10 -8 15 0 0.3 0</pose>
+      <diffuse>0.8 0.7 0.6 1</diffuse>
+      <specular>0.5 0.5 0.4 1</specular>
+      <direction>0.3 0.3 -1</direction>
+    </light>
+
+    <!-- Emergency lighting -->
+    <light type="spot" name="emergency_light_1">
+      <cast_shadows>0</cast_shadows>
+      <pose>5 5 3 0 0.5 0</pose>
+      <diffuse>1 0.3 0.1 1</diffuse>
+      <specular>1 0.3 0.1 1</specular>
+      <direction>0 0 -1</direction>
+      <spot>
+        <inner_angle>0.5</inner_angle>
+        <outer_angle>1.0</outer_angle>
+        <falloff>1.0</falloff>
+      </spot>
+    </light>
+
+    <!-- Ground plane with debris texture -->
+    <model name='damaged_ground'>
+      <static>true</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0.0 0.0 1</normal>
+              <size>50 50</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <plane>
+              <normal>0.0 0.0 1</normal>
+              <size>50 50</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.3 0.3 0.2 1</ambient>
+            <diffuse>0.4 0.4 0.3 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>0 0 0 0 0 0</pose>
+    </model>
+
+    <!-- Collapsed building structure -->
+    <model name='collapsed_building_1'>
+      <static>true</static>
+      <link name='wall_collapsed'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>8 0.3 3</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>8 0.3 3</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.4 0.3 1</ambient>
+            <diffuse>0.6 0.5 0.4 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>-5 -8 1.2 0 0.8 0.3</pose>
+    </model>
+
+    <!-- Partially collapsed concrete wall -->
+    <model name='damaged_wall_1'>
+      <static>true</static>
+      <link name='wall_section_1'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>4 0.3 2.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>4 0.3 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.4 0.4 0.4 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>8 -3 1.25 0 0 0</pose>
+    </model>
+
+    <!-- Damaged wall section 2 -->
+    <model name='damaged_wall_2'>
+      <static>true</static>
+      <link name='wall_section_2'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>3 0.3 1.8</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>3 0.3 1.8</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.4 0.4 0.4 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>8 0.5 0.9 0 0 0</pose>
+    </model>
+
+    <!-- Debris pile 1 - Large concrete chunks -->
+    <model name='debris_pile_1'>
+      <static>true</static>
+      <link name='debris_1'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>2.5 1.8 1.2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>2.5 1.8 1.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3 0.3 0.3 1</ambient>
+            <diffuse>0.4 0.4 0.4 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>-3 2 0.6 0.2 0.1 0.8</pose>
+    </model>
+
+    <!-- Debris pile 2 - Smaller rubble -->
+    <model name='debris_pile_2'>
+      <static>true</static>
+      <link name='debris_2'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>1.5 2 0.8</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>1.5 2 0.8</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.35 0.3 0.25 1</ambient>
+            <diffuse>0.45 0.4 0.35 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>1 -5 0.4 0.3 0.2 1.2</pose>
+    </model>
+
+    <!-- Scattered debris pieces -->
+    <model name='debris_chunk_1'>
+      <static>true</static>
+      <link name='chunk'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.8 0.6 0.4</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.8 0.6 0.4</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3 0.3 0.3 1</ambient>
+            <diffuse>0.4 0.4 0.4 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>6 4 0.2 0.5 0.3 2.1</pose>
+    </model>
+
+    <model name='debris_chunk_2'>
+      <static>true</static>
+      <link name='chunk'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.6 0.8 0.3</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.6 0.8 0.3</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.35 0.3 0.25 1</ambient>
+            <diffuse>0.45 0.4 0.35 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>-7 6 0.15 0.8 0.2 1.5</pose>
+    </model>
+
+    <!-- Damaged construction crane (simplified) -->
+    <model name='damaged_crane'>
+      <static>true</static>
+      <link name='crane_base'>
+        <collision name='collision'>
+          <geometry>
+            <cylinder>
+              <radius>1.2</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <cylinder>
+              <radius>1.2</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.6 0.1 1</ambient>
+            <diffuse>0.9 0.7 0.2 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <link name='crane_arm'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>12 0.4 0.6</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>12 0.4 0.6</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.6 0.1 1</ambient>
+            <diffuse>0.9 0.7 0.2 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <joint name='crane_joint' type='fixed'>
+        <parent>crane_base</parent>
+        <child>crane_arm</child>
+      </joint>
+      <pose>-12 -12 2 0 -0.3 0.8</pose>
+    </model>
+
+    <!-- Overturned construction vehicle -->
+    <model name='overturned_excavator'>
+      <static>true</static>
+      <link name='body'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>4 2.5 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>4 2.5 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9 0.7 0.1 1</ambient>
+            <diffuse>1.0 0.8 0.2 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <link name='arm'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>3 0.5 0.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>3 0.5 0.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9 0.7 0.1 1</ambient>
+            <diffuse>1.0 0.8 0.2 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <joint name='excavator_joint' type='fixed'>
+        <parent>body</parent>
+        <child>arm</child>
+      </joint>
+      <pose>10 -10 1.5 1.2 0.3 0.5</pose>
+    </model>
+
+    <!-- Fallen scaffolding -->
+    <model name='fallen_scaffolding'>
+      <static>true</static>
+      <link name='scaffold_1'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.1 0.1 6</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.1 0.1 6</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.6 0.6 0.6 1</ambient>
+            <diffuse>0.7 0.7 0.7 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>4 8 1.5 1.5 0.2 0</pose>
+    </model>
+
+    <!-- Scattered construction materials -->
+    <model name='steel_beam_1'>
+      <static>true</static>
+      <link name='beam'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>6 0.3 0.3</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>6 0.3 0.3</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.4 0.4 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.6 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>-8 4 0.15 0 0 0.7</pose>
+    </model>
+
+    <model name='steel_beam_2'>
+      <static>true</static>
+      <link name='beam'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>4 0.25 0.25</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>4 0.25 0.25</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.4 0.4 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.6 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>7 7 0.12 0 0 1.2</pose>
+    </model>
+
+    <!-- Concrete barriers (some fallen) -->
+    <model name='barrier_1'>
+      <static>true</static>
+      <link name='barrier'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>2 0.3 1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>2 0.3 1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.6 0.6 0.6 1</ambient>
+            <diffuse>0.7 0.7 0.7 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>-10 8 0.3 0.8 0 0</pose>
+    </model>
+
+    <model name='barrier_2'>
+      <static>true</static>
+      <link name='barrier'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>2 0.3 1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>2 0.3 1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.6 0.6 0.6 1</ambient>
+            <diffuse>0.7 0.7 0.7 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>12 2 0.5 0 0 0</pose>
+    </model>
+
+    <!-- Damaged fence sections -->
+    <model name='damaged_fence_1'>
+      <static>true</static>
+      <link name='fence'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>4 0.1 1.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>4 0.1 1.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3 0.3 0.3 1</ambient>
+            <diffuse>0.4 0.4 0.4 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>-15 0 0.75 0 0.5 0.3</pose>
+    </model>
+
+    <!-- Warning signs and equipment -->
+    <model name='warning_sign_1'>
+      <static>true</static>
+      <link name='sign'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.8 0.05 0.8</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.8 0.05 0.8</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 0.5 0 1</ambient>
+            <diffuse>1 0.6 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>-2 -10 1.2 0 0 0.8</pose>
+    </model>
+
+    <!-- Emergency vehicle (ambulance/fire truck representation) -->
+    <model name='emergency_vehicle'>
+      <static>true</static>
+      <link name='vehicle_body'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>6 2.5 2.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>6 2.5 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 0.2 0.2 1</ambient>
+            <diffuse>1 0.3 0.3 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>15 12 1.25 0 0 -0.5</pose>
+    </model>
+
+    <!-- Smoke/dust effect areas (represented as translucent boxes) -->
+    <model name='dust_cloud_1'>
+      <static>true</static>
+      <link name='dust'>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>3 3 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.4 0.4 0.3 0.3</ambient>
+            <diffuse>0.5 0.5 0.4 0.3</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>-5 -8 1 0 0 0</pose>
+    </model>
+
+  </world>
+</sdf>
