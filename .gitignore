@@ -3,6 +3,8 @@ build/
 install/
 log/
 
+.devcontainer/
+
 # Colcon build artifacts
 .colcon_cd_root
 .colcon_install_layout

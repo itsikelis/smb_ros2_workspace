@@ -21,6 +21,9 @@ setup(
     license="BSD-2-Clause",
     tests_require=["pytest"],
     entry_points={
-        "console_scripts": ["navigate_detect = four_now.navigate_detect:main"],
+        "console_scripts": [
+            # "navigate_detect = four_now.navigate_detect:main",
+            'publish_waypoints = four_now.waypoint_publisher:main',
+        ],
     },
 )
