@@ -223,15 +223,15 @@ def generate_launch_description():
             static_tf_map_to_odom,
             static_tf_map_to_graph_msf,
             ###
-            # terrain_analysis_launch,
-            # terrain_analysis_ext_launch,
-            # ###
-            # graph_msf_launch,
-            # open_slam_launch,
-            # local_odometry,
+            terrain_analysis_launch,
+            terrain_analysis_ext_launch,
+            ###
+            graph_msf_launch,
+            open_slam_launch,
+            local_odometry,
             # ## EXPLORATION
-            # exploration_launch,
-            # # far_planner_launch,
-            # local_planner_launch,
+            exploration_launch,
+            # far_planner_launch,
+            local_planner_launch,
         ]
     )
