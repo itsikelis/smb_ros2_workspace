@@ -20,8 +20,6 @@ import os
 
 
 def generate_launch_description():
-    robot_id = SetEnvironmentVariable("ROBOT_ID", "262")
-
     # Path to the URDF file
     description_file = PathJoinSubstitution(
         [FindPackageShare("smb_description"), "urdf", "smb.urdf.xacro"]
