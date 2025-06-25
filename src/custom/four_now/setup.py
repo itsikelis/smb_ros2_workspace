@@ -28,6 +28,7 @@ setup(
             "navigate_detect = four_now.navigate_detect:main",
             "waypoint_publisher = four_now.waypoint_publisher:main",
             'robot_to_map_node = four_now.robot_to_map_node:main',
+            'map_logger_node = four_now.map_save:main',
         ],
     },
 )
