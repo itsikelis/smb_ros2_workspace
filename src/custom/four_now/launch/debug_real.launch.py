@@ -303,6 +303,6 @@ def generate_launch_description():
             twist_pid,
             config_topics,
             twist_mux,
-            # rviz2,
+            rviz2,
         ]
     )
