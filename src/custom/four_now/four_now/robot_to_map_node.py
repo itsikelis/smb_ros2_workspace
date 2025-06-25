@@ -5,7 +5,6 @@ from geometry_msgs.msg import PointStamped, Point
 from object_detection_msgs.msg import ObjectDetectionInfo, ObjectDetectionInfoArray
 import tf2_ros
 import tf2_geometry_msgs
-import pandas as pd
 from typing import Optional
 
 THRESHOLD_FOR_PROBABILITY_TO_BE_DETECTION = 0.4
@@ -31,7 +30,7 @@ class TransformServiceNode(Node):
         )
 
         # Data collection
-        self.collected_obs = pd.DataFrame(columns=["class", "x", "y", "z"])
+        self.collected_obs = []  # List of dicts: [{"class": ..., "x": ..., "y": ..., "z": ...}]
         self.counter = 0
         self.skip_rate = 1  # Process every nth detection
 
@@ -64,9 +63,7 @@ class TransformServiceNode(Node):
             "y": point_to_add.point.y,
             "z": point_to_add.point.z,
         }
-        self.collected_obs = pd.concat(
-            [self.collected_obs, pd.DataFrame([new_point])], ignore_index=True
-        )
+        self.collected_obs.append(new_point)
 
     def update_df(self, msg: ObjectDetectionInfo):
         transformed = self.get_transformed_point(
@@ -93,12 +90,23 @@ class TransformServiceNode(Node):
                 self.get_logger().info(f'Received detection: "{msg.class_id}"')
                 self.update_df(msg)
 
-        self.get_logger().info(f"Current collected points:\n{self.collected_obs}")
+        # Display current state (as text)
+        display_str = "\n".join(
+            f'{obs["class"]}: x={obs["x"]:.2f}, y={obs["y"]:.2f}, z={obs["z"]:.2f}'
+            for obs in self.collected_obs
+        )
+        self.get_logger().info(f"Current collected points:\n{display_str}")
 
     def write_to_file_callback(self, msg: Empty):
         file_path = "points_transformed.csv"
-        self.collected_obs.to_csv(file_path, index=False)
-        self.get_logger().info(f"Saved {len(self.collected_obs)} points to '{file_path}'.")
+        try:
+            with open(file_path, "w") as f:
+                f.write("class,x,y,z\n")
+                for obs in self.collected_obs:
+                    f.write(f'{obs["class"]},{obs["x"]},{obs["y"]},{obs["z"]}\n')
+            self.get_logger().info(f"Saved {len(self.collected_obs)} points to '{file_path}'.")
+        except Exception as e:
+            self.get_logger().error(f"Failed to write to file: {e}")
 
 
 def main(args=None):

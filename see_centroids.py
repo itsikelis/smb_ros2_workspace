@@ -1,14 +1,20 @@
-import pandas as pd
+import csv
 import matplotlib.pyplot as plt
 
 # Load the centroids CSV
-df = pd.read_csv('centroids_output.csv')
+with open('centroids_output.csv', newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+    data = [row for row in reader]
 
-# Convert to dictionary grouped by class
-centroids_dict = {
-    cls: group[['x', 'y']].to_dict(orient='records')
-    for cls, group in df.groupby('class')
-}
+# Convert data to dictionary grouped by class
+centroids_dict = {}
+for row in data:
+    cls = row['class']
+    x = float(row['x'])
+    y = float(row['y'])
+    if cls not in centroids_dict:
+        centroids_dict[cls] = []
+    centroids_dict[cls].append({'x': x, 'y': y})
 
 # Plot centroids, color-coded by class
 plt.figure()
