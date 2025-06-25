@@ -12,7 +12,7 @@ import tf2_geometry_msgs
 import pandas as pd
 from typing import Optional
 
-THRESHOLD_FOR_PROBABILITY_TO_BE_DETECTION = 0.5
+THRESHOLD_FOR_PROBABILITY_TO_BE_DETECTION = 0.4
 
 
 class TransformServiceNode(Node):
@@ -28,9 +28,15 @@ class TransformServiceNode(Node):
         )
 
         # TODO: define the topic
-        self.subscription = self.create_subscription(
-            Empty, "/write_to_file", self.write_to_file_callback, 10
+        self.sub_to_write_from_user = self.create_subscription(
+            Empty, "/write_detections_to_file", self.write_to_file_callback, 10
         )
+        self.sub_to_write_from_tare = self.create_subscription(
+            Empty, "/exploration_finish", self.write_to_file_callback, 10
+        )
+
+        self.counter = 0
+        self.skip_rate = 1 # Process every skip_rate-th message
 
         self.collected_obs = pd.DataFrame(columns=["class", "x", "y", "z"])
         self.get_logger().info("transform_point_robot2map service ready.")
@@ -67,12 +73,8 @@ class TransformServiceNode(Node):
             [self.collected_obs, pd.DataFrame([new_point])], ignore_index=True
         )
 
-    def listener_callback(self, msgs: ObjectDetectionInfoArray):
-        assert len(msgs.info) > 0, "No detections received."
-        msg = msgs.info[0]
-        if msg.confidence < THRESHOLD_FOR_PROBABILITY_TO_BE_DETECTION:
-            return
-        # TODO: add correct frame
+    def update_df(self, msg: ObjectDetectionInfo):
+        # TODO: add correct frames
         point_in_map_frame = self.get_transformed_point(
             msg.position, "base_link", "map"
         )
@@ -80,6 +82,23 @@ class TransformServiceNode(Node):
         assert isinstance(point_in_map_frame, PointStamped)
 
         self.add_point_to_df(point_in_map_frame, msg.class_id)
+
+
+    def listener_callback(self, msgs: ObjectDetectionInfoArray):
+        assert len(msgs.info) > 0, "No detections received."
+        to_add = 1
+        for msg in msgs.info:
+            if msg.confidence < THRESHOLD_FOR_PROBABILITY_TO_BE_DETECTION:
+                continue
+
+            self.counter += to_add
+            to_add = 0
+
+            if self.counter % self.skip_rate == 0:
+                self.counter = 0
+                self.get_logger().info(f'Received: "{msg.data}"')
+                self.update_df(msg)
+            
         self.get_logger().info(f"Entire df: {self.collected_obs}")
 
     def write_to_file_callback(self, msg: Empty):
