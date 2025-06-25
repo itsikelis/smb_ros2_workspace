@@ -89,7 +89,7 @@ sources:
       - source: .
         target: src/planning/far_planner
   - name: tare_planner
-    repo: https://github.com/ETHZ-RobotX/tare_planner.git
+    repo: https://github.com/itsikelis/tare_planner.git
     rev: main
     type: git
     links:
