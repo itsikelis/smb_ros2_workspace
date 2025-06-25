@@ -44,7 +44,7 @@ for cls in classes:
     for center in centers:
         centroid_rows.append({'class': cls, 'x': center[0], 'y': center[1], 'z': np.nan})
 
-    # Plot clustered data
+    # Plot clustered data with centroids
     plt.figure()
     plt.scatter(subset['x'], subset['y'], c=labels, cmap='tab10')
     plt.scatter(centers[:, 0], centers[:, 1], color='black', marker='x', s=100, label='Centroids')
@@ -59,4 +59,3 @@ for cls in classes:
 centroids_df = pd.DataFrame(centroid_rows)
 centroids_df.to_csv('centroids_output.csv', index=False)
 print("\nCentroids saved to 'centroids_output.csv'")
-
