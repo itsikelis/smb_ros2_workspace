@@ -29,6 +29,8 @@ setup(
             "waypoint_publisher = four_now.waypoint_publisher:main",
             'robot_to_map_node = four_now.robot_to_map_node:main',
             'map_logger_node = four_now.map_save:main',
+            'save_map_node = four_now.save_map_node:main',
+            'move_a_bit_node = four_now.move_a_bit_node:main',
         ],
     },
 )
