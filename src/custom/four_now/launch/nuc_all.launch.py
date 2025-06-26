@@ -256,7 +256,7 @@ def generate_launch_description():
             local_odometry,
             # ## EXPLORATION
             exploration_launch,
-            far_planner_launch,
+            # far_planner_launch,
             local_planner_launch,
             ###
             robot_to_map_node,
