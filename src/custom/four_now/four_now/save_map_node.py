@@ -5,18 +5,18 @@ from open3d_slam_msgs.srv import SaveMap
 
 class SaveMapNode(Node):
     def __init__(self):
-        super().__init__('save_map_node')
+        super().__init__("save_map_node")
 
         # Create service client
-        self.cli = self.create_client(SaveMap, '/open3d/save_map')
+        self.cli = self.create_client(SaveMap, "/open3d/save_map")
         while not self.cli.wait_for_service(timeout_sec=1.0):
-            self.get_logger().info('Waiting for SaveMap service...')
+            self.get_logger().info("Waiting for SaveMap service...")
 
         # Prepare empty request
         self.req = SaveMap.Request()
 
-        # Call service every 3 seconds
-        self.timer = self.create_timer(3.0, self.send_request)
+        # Call service every 10 seconds
+        self.timer = self.create_timer(10.0, self.send_request)
 
     def send_request(self):
         self.get_logger().info("Calling /open3d/save_map...")
@@ -39,5 +39,5 @@ def main(args=None):
     rclpy.shutdown()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
