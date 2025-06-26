@@ -6,25 +6,28 @@ import sensor_msgs_py.point_cloud2 as pc2
 
 class MapSave(Node):
     def __init__(self):
-        super().__init__('map_save')
-        # self.exploration_done = False
+        super().__init__('point')
         self.map_saved = False
         self.overall_map_sub = None
 
         self.create_subscription(Bool, '/exploration_finish', self.finish_callback, 10)
-        
-        self.get_logger().info('map save ON')
+        self.get_logger().info('mapSave Node Running...')
 
     def finish_callback(self, msg):
         if msg.data and not self.map_saved:
-            self.get_logger().info('exp end, saving now')
-            self.create_subscription(PointCloud2, '/overall_map', self.map_callback, 10)
+            self.get_logger().info('exploration finished, subscribing to /overall_map...')
+            self.overall_map_sub = self.create_subscription(
+                PointCloud2, '/overall_map', self.map_callback, 10
+            )
+            points = list(pc2.read_points(msg, field_names=["x", "y", "z"], skip_nans=True))
+
+
 
     def map_callback(self, msg):
         if self.map_saved:
             return
 
-        points = list(pc2.read_points(msg, field_names=["x", "y", "z"], skip_nans=True))
+        # points = list(pc2.read_points(msg, field_names=["x", "y", "z"], skip_nans=True))
         filename = 'final_map.pcd'
         with open(filename, 'w') as f:
             f.write('# .PCD v0.7 - Point Cloud Data file format\n')
