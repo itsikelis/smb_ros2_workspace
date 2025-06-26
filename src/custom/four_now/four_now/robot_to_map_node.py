@@ -30,7 +30,9 @@ class TransformServiceNode(Node):
         )
 
         # Data collection
-        self.collected_obs = []  # List of dicts: [{"class": ..., "x": ..., "y": ..., "z": ...}]
+        self.collected_obs = (
+            []
+        )  # List of dicts: [{"class": ..., "x": ..., "y": ..., "z": ...}]
         self.counter = 0
         self.skip_rate = 1  # Process every nth detection
 
@@ -56,12 +58,15 @@ class TransformServiceNode(Node):
             self.get_logger().error(f"Transform failed: {str(e)}")
             return None
 
-    def add_point_to_df(self, point_to_add: PointStamped, class_name: str):
+    def add_point_to_df(
+        self, point_to_add: PointStamped, class_name: str, confidence: float
+    ):
         new_point = {
             "class": class_name,
             "x": point_to_add.point.x,
             "y": point_to_add.point.y,
             "z": point_to_add.point.z,
+            "confidence": confidence,
         }
         self.collected_obs.append(new_point)
 
@@ -70,7 +75,7 @@ class TransformServiceNode(Node):
             msg.position, original_frame="base_link", destination_frame="map"
         )
         if transformed:
-            self.add_point_to_df(transformed, msg.class_id)
+            self.add_point_to_df(transformed, msg.class_id, msg.confidence)
 
     def listener_callback(self, msgs: ObjectDetectionInfoArray):
         if not msgs.info:
@@ -92,7 +97,7 @@ class TransformServiceNode(Node):
 
         # Display current state (as text)
         display_str = "\n".join(
-            f'{obs["class"]}: x={obs["x"]:.2f}, y={obs["y"]:.2f}, z={obs["z"]:.2f}'
+            f'{obs["class"]}: x={obs["x"]:.2f}, y={obs["y"]:.2f}, z={obs["z"]:.2f}, confidence={obs["confidence"]:.2f}'
             for obs in self.collected_obs
         )
         self.get_logger().info(f"Current collected points:\n{display_str}")
@@ -101,10 +106,14 @@ class TransformServiceNode(Node):
         file_path = "points_transformed.csv"
         try:
             with open(file_path, "w") as f:
-                f.write("class,x,y,z\n")
+                f.write("class,x,y,z,confidence\n")
                 for obs in self.collected_obs:
-                    f.write(f'{obs["class"]},{obs["x"]},{obs["y"]},{obs["z"]}\n')
-            self.get_logger().info(f"Saved {len(self.collected_obs)} points to '{file_path}'.")
+                    f.write(
+                        f'{obs["class"]},{obs["x"]},{obs["y"]},{obs["z"]},{obs["confidence"]}\n'
+                    )
+            self.get_logger().info(
+                f"Saved {len(self.collected_obs)} points to '{file_path}'."
+            )
         except Exception as e:
             self.get_logger().error(f"Failed to write to file: {e}")
 
