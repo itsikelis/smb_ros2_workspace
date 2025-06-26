@@ -209,6 +209,31 @@ def generate_launch_description():
         ),
     )
 
+    robot_to_map_node = Node(
+        package="four_now",
+        executable="robot_to_map_node",
+        name="robot_to_map_node",
+        output="screen",
+    )
+    save_map_node = Node(
+        package="four_now",
+        executable="save_map_node",
+        name="save_map_node",
+        output="screen",
+    )
+    move_a_bit_node = Node(
+        package="four_now",
+        executable="move_a_bit_node",
+        name="move_a_bit_node",
+        output="screen",
+    )
+    give_up_exploration_node = Node(
+        package="four_now",
+        executable="give_up_exploration_node",
+        name="give_up_exploration_node",
+        output="screen",
+    )
+
     return LaunchDescription(
         [
             robot_state_publisher_node,
@@ -233,5 +258,10 @@ def generate_launch_description():
             exploration_launch,
             # far_planner_launch,
             local_planner_launch,
+            ###
+            robot_to_map_node,
+            save_map_node,
+            move_a_bit_node,
+            give_up_exploration_node,
         ]
     )
