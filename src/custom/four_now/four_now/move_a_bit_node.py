@@ -5,30 +5,32 @@ from geometry_msgs.msg import TwistStamped
 from nav_msgs.msg import Odometry
 import math
 
-PERIOD            = 0.1      # timer period (s)
-SCALE             = 5.0      # rad/s for cmd_vel.angular.z
-WINDOW_SIZE       = 5        # number of Odometry samples kept (~0.5 s)
-STOP_DIST_THRESH  = 0.1     # planar displacement (m) to treat as “stopped”
-TWIST_DURATION    = 20.0     # seconds before flipping direction
+PERIOD = 0.01  # timer period (s)
+SCALE = 5.0  # rad/s for cmd_vel.angular.z
+WINDOW_SIZE = 5  # number of Odometry samples kept (~0.5 s)
+STOP_DIST_THRESH = 0.0001  # planar displacement (m) to treat as “stopped”
+TWIST_DURATION = 20.0  # seconds before flipping direction
+
 
 class ConstantTwistPublisher(Node):
 
     def __init__(self):
-        super().__init__('move_a_bit_node')
+        super().__init__("move_a_bit_node")
 
         # Publisher & subscriber
-        self.cmd_pub = self.create_publisher(TwistStamped, '/cmd_vel', 10)
+        self.cmd_pub = self.create_publisher(TwistStamped, "/cmd_vel", 10)
         self.state_sub = self.create_subscription(
-            Odometry, '/state_estimation', self.se_callback, 10)
+            Odometry, "/state_estimation", self.se_callback, 10
+        )
 
         # History used for “stopped” detection
         self.pos_history = deque(maxlen=WINDOW_SIZE)
         self.is_stopped = False
 
         # Twisting-state bookkeeping
-        self.sign = 1.0
+        self.sign = -1.0
         self.twist_active = False
-        self.twist_start_time = None   # rclpy.time.Time when twisting began
+        self.twist_start_time = None  # rclpy.time.Time when twisting began
 
         # Main timer
         self.timer = self.create_timer(PERIOD, self.publish_twist)
@@ -82,6 +84,7 @@ class ConstantTwistPublisher(Node):
 
         # Robot is stopped: start or continue twisting
         if not self.twist_active:
+            self.switch_sign()
             # First frame of a “stopped” interval
             self.twist_active = True
             self.twist_start_time = now
@@ -98,7 +101,9 @@ class ConstantTwistPublisher(Node):
             self.switch_sign()
             self.twist_start_time = now
             self.get_logger().info(
-                f"{TWIST_DURATION:.0f}s elapsed - switching direction to {self.sign * SCALE} rad/s")
+                f"{TWIST_DURATION:.0f}s elapsed - switching direction to {self.sign * SCALE} rad/s"
+            )
+
 
 # ----------------------------------------------------------------------
 # Main
@@ -114,5 +119,6 @@ def main(args=None):
         node.destroy_node()
         rclpy.shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
