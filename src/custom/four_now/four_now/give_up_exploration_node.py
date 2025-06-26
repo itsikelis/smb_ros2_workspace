@@ -5,8 +5,8 @@ import subprocess
 import os
 
 DURATION_IN_MINUTES: float = 10
-TOPIC: str = "/way_point"
-# TOPIC: str = "/goal_point"
+# TOPIC: str = "/way_point"
+TOPIC: str = "/goal_point"
 
 
 class TimerKillNode(Node):
