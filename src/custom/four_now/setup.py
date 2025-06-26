@@ -31,6 +31,7 @@ setup(
             'map_logger_node = four_now.map_save:main',
             'save_map_node = four_now.save_map_node:main',
             'move_a_bit_node = four_now.move_a_bit_node:main',
+            'give_up_exploration_node = four_now.give_up_exploration_node:main',
         ],
     },
 )
